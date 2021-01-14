@@ -10,9 +10,19 @@ import XCTest
 @testable import Leilao
 
 class AvaliacaoTests: XCTestCase {
+    
+    var leiloeiro:Avaliador!
+    private var joao:Usuario!
+    private var maria:Usuario!
+    private var jose:Usuario!
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
+        
+        leiloeiro = Avaliador()
+        joao = Usuario(nome: "Joao")
+        jose = Usuario(nome: "Jose")
+        maria = Usuario(nome: "Maria")
     }
 
     override func tearDownWithError() throws {
@@ -35,10 +45,6 @@ class AvaliacaoTests: XCTestCase {
         
         // Cenario
         
-        let joao = Usuario(nome: "Joao")
-        let jose = Usuario(nome: "Jose")
-        let maria = Usuario(nome: "Maria")
-        
         let leilao = Leilao(descricao: "Playstation 4")
         leilao.propoe(lance: Lance(maria, 250.0))
         leilao.propoe(lance: Lance(joao, 300.0))
@@ -46,7 +52,6 @@ class AvaliacaoTests: XCTestCase {
         
         // Acao
         
-        let leiloeiro = Avaliador()
         leiloeiro.avalia(leilao: leilao)
         
         // Validacao
@@ -60,13 +65,11 @@ class AvaliacaoTests: XCTestCase {
         
         // Cenario
         
-        let joao = Usuario(nome: "Joao")
         let leilao = Leilao(descricao: "Playstation 4")
         leilao.propoe(lance: Lance(joao, 1000.0))
         
         // Acao
         
-        let leiloeiro = Avaliador()
         leiloeiro.avalia(leilao: leilao)
         
         // Validacao
@@ -77,16 +80,17 @@ class AvaliacaoTests: XCTestCase {
     
     func testDeveEncontrarOsTresMaioresLances() {
         
-        let joao = Usuario(nome: "Joao")
-        let maria = Usuario(nome: "Maria")
-        
         let leilao = Leilao(descricao: "Playstation4")
         leilao.propoe(lance: Lance(joao, 300.0))
         leilao.propoe(lance: Lance(maria, 400.0))
         leilao.propoe(lance: Lance(joao, 500.0))
         leilao.propoe(lance: Lance(maria, 600.0))
         
-        let leiloeiro = Avaliador()
+        let leilao = CriadorDeLeilao().para(descricao: "Playstation 4").lance(joao, 300.0)
+                                                                        .lance(maria, 400.0)
+                                                                        .lance(joao, 500.0)
+                                                                        .lance(maria, 400.0)
+        
         leiloeiro.avalia(leilao: leilao)
         
         let listaLances = leiloeiro.tresMaiores()
