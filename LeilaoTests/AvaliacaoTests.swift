@@ -79,17 +79,12 @@ class AvaliacaoTests: XCTestCase {
     }
     
     func testDeveEncontrarOsTresMaioresLances() {
-        
-        let leilao = Leilao(descricao: "Playstation4")
-        leilao.propoe(lance: Lance(joao, 300.0))
-        leilao.propoe(lance: Lance(maria, 400.0))
-        leilao.propoe(lance: Lance(joao, 500.0))
-        leilao.propoe(lance: Lance(maria, 600.0))
-        
-        let leilao = CriadorDeLeilao().para(descricao: "Playstation 4").lance(joao, 300.0)
-                                                                        .lance(maria, 400.0)
-                                                                        .lance(joao, 500.0)
-                                                                        .lance(maria, 400.0)
+
+        let leilao = CriadorDeLeilao().para(descricao: "Playstation 4")
+            .lance(joao, 300.0)
+            .lance(maria, 400.0)
+            .lance(joao, 500.0)
+            .lance(maria, 600.0).constroi()
         
         leiloeiro.avalia(leilao: leilao)
         
